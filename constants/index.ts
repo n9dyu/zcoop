@@ -20,6 +20,7 @@ import tags from "../assets/images/tags.png";
 import landingpic from "../assets/images/icecream-tub.png";
 import flavorbg from "../assets/images/flavorbg.png";
 import header from "../assets/images/header.png";
+import visual from "../assets/images/visual.png";
 
 export const flavors = [
     {
@@ -108,5 +109,6 @@ export const images = {
     tags,
     landingpic,
     flavorbg,
-    header
+    header,
+    visual
 };
