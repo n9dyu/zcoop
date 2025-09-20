@@ -1,98 +1,122 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { FlatList, Text, View, Image, Pressable, Animated, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useState, useRef } from "react";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import "../global.css"
+import { flavors, images } from "@/constants";
+import CartButton from "@/components/CartButton";
 
-export default function HomeScreen() {
+
+
+export default function Index() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
+  const animateFlavor = (direction: "next" | "prev", newIndex: number) => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: direction === "next" ? -50 : 50,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setCurrentIndex(newIndex);
+
+      // reset values
+      fadeAnim.setValue(0);
+      slideAnim.setValue(direction === "next" ? 50 : -50);
+
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    });
+  };
+
+  const handlePrev = () => {
+    const newIndex = currentIndex === 0 ? flavors.length - 1 : currentIndex - 1;
+    animateFlavor("prev", newIndex);
+  };
+
+  const handleNext = () => {
+    const newIndex = currentIndex === flavors.length - 1 ? 0 : currentIndex + 1;
+    animateFlavor("next", newIndex);
+  };
+
+  const currentFlavor = flavors[currentIndex];
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView className="bg-white flex-1">
+      <View>
+        <Image source={images.header} className="absolute -top-6 left-0 w-full " resizeMode="contain" />
+      </View>
+
+      <View className="justify-between flex-row w-full px-5">
+        <View className="flex-start">
+          <TouchableOpacity>
+            <Image source={images.menuwhite} className="w-7 h-7" resizeMode="contain" />
+          </TouchableOpacity>
+        </View>
+
+        <CartButton/>
+      </View>
+
+      <Text className="text-red font-bop text-center text-7xl mt-[60px]">Discover</Text>
+      <Text className="text-black font-coolvetica text-center text-3xl my-1">{currentFlavor.title}</Text>
+
+      <View className="flex-row items-center justify-center mt-6">
+
+        <Pressable onPress={handlePrev} className="p-2">
+          <Image source={images.left} className="size-5" resizeMode="contain" />
+        </Pressable>
+
+        <View className="relative items-center justify-center">
+          <Image source={images.flavorbg} className="w-2/3 aspect-square mt-7" resizeMode="contain" />
+
+          <Animated.Image 
+            source={currentFlavor.image} 
+            style={{position: 'absolute', width:"95%", aspectRatio: 1, marginBottom: 90, opacity: fadeAnim, transform: [{ translateX: slideAnim }],}}
+            resizeMode="contain"
+          />
+        </View>
+
+        <Pressable onPress={handleNext} className="p-2">
+          <Image source={images.right} className="size-5" resizeMode="contain" />
+        </Pressable> 
+
+      </View> 
+
+      <View className="items-center mt-[-60px]">
+
+        <Pressable className="w-20 h-20 rounded-full bg-white shadow-md items-center justify-center" style={{ elevation: 6 }}>
+          <Image source={images.addtobag} className="w-8 h-8" resizeMode="contain" />
+        </Pressable>
+
+      </View>
+        
+      <Text className="text-black font-coolvetica text-center text-xl mt-5 px-8">{currentFlavor.details}</Text>  
+
+      <View className="absolute bottom-16 left-8 items-center">
+          <Image source={images.tags} className="w-100 h-45" resizeMode="contain" />
+          <Text className="text-red font-coolvetica text-center text-xl absolute top-5 left-24">{currentFlavor.calories}</Text>
+      </View>
+
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
