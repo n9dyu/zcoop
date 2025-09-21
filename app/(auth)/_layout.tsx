@@ -12,19 +12,20 @@ export default function _layout() {
         <ScrollView className='bg-white h-full' keyboardShouldPersistTaps="handled">
 
           <View className='w-full relative' style={{ height: Dimensions.get('screen').height / 2.25}}>
-            <ImageBackground source={images.visual} className="size-full rounded-b-lg" resizeMode="stretch"></ImageBackground>
+            <ImageBackground source={images.visual} className="size-full rounded-b-lg" resizeMode="contain"></ImageBackground>
           </View>
 
-          <CustomInput
+          {/* <CustomInput
             placeholder='Enter your email'
             value={""}  
             onChangeText={() => {}}
             label="Email"
             keyboardType='email-address'
           />
-          <CustomButton/>
+          <CustomButton/> */}
+          <Slot />
         </ScrollView>
-        <Slot />
+        
     </KeyboardAvoidingView>
   )
 }
