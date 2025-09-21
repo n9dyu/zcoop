@@ -32,7 +32,7 @@ const SignUp = () => {
 
 
   return (
-    <View className='gap-10 bg bg-white rounded-lg p-5 mt-5'>
+    <View className='gap-10 bg bg-white bottom-0 rounded-3xl p-5 mt-5 h-[64%] justify-center font-coolvetica'>
 
         <CustomInput
             placeholder='Enter your full name'
@@ -61,10 +61,10 @@ const SignUp = () => {
         />
 
         <View className='flex justify-center mt-5 flex-row gap-2 font-coolvetica'>
-            <Text className="base-regular text-gray-400 font-coolvetica text-xl">
+            <Text className="base-regular text-gray-400 font-coolvetica text-l">
                 Already have an account?
             </Text>
-            <Link href='/sign-in' className='base-bold text-red font-coolvetica text-xl'>
+            <Link href='/sign-in' className='base-bold text-red font-coolvetica text-l'>
                 Sign In
             </Link>
         </View>

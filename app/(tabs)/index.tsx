@@ -1,6 +1,7 @@
-import { FlatList, Text, View, Image, Pressable, Animated, TouchableOpacity } from "react-native";
+import { FlatList, Text, View, Image, Pressable, Animated, TouchableOpacity, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import * as Sentry from '@sentry/react-native';
 
 import "../global.css"
 import { flavors, images } from "@/constants";

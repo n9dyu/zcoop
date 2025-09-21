@@ -4,6 +4,7 @@ import { Link, router } from 'expo-router'
 import CustomInput from '@/components/CustomInput'
 import CustomButton from '@/components/CustomButton'
 import { signIn } from '@/lib/appwrite'
+import * as Sentry from '@sentry/react-native';
 
 
 const SignIn = () => {
@@ -24,6 +25,7 @@ const SignIn = () => {
                 router.push("/");
             } catch (error: any) {
                 Alert.alert("Error", error.message);
+                Sentry.captureEvent(error);
             } finally {
                 setIsSubmiting(false);
             }
@@ -31,7 +33,7 @@ const SignIn = () => {
 
 
   return (
-    <View className='gap-10 bg bg-white rounded-lg p-5 mt-5'>
+    <View className='gap-10 bg bg-white bottom-0 rounded-3xl p-5 mt-5 h-[68%] justify-center'>
         <CustomInput
             placeholder='Enter your email'
             value={form.email}  
@@ -53,10 +55,10 @@ const SignIn = () => {
         />
 
         <View className='flex justify-center mt-5 flex-row gap-2 font-coolvetica'>
-            <Text className="base-regular text-gray-400 font-coolvetica text-xl">
+            <Text className="base-regular text-gray-400 font-coolvetica text-l">
                 Don't have an account?
             </Text>
-            <Link href='/sign-up' className='base-bold text-red font-coolvetica text-xl'>
+            <Link href='/sign-up' className='base-bold text-red font-coolvetica text-l'>
                 Sign Up
             </Link>
         </View>

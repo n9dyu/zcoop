@@ -9,10 +9,10 @@ import CustomButton from '@/components/CustomButton'
 export default function _layout() {
   return (
     <KeyboardAvoidingView behavior = {Platform.OS === "ios" ? "padding" : "height"}>
-        <ScrollView className='bg-white h-full' keyboardShouldPersistTaps="handled">
+        <ScrollView className='bg-red h-full' keyboardShouldPersistTaps="handled">
 
           <View className='w-full relative' style={{ height: Dimensions.get('screen').height / 2.25}}>
-            <ImageBackground source={images.visual} className="size-full rounded-b-lg" resizeMode="contain"></ImageBackground>
+            <ImageBackground source={images.visual} className="size-full rounded-b-lg mt-8" resizeMode="contain"></ImageBackground>
           </View>
 
           {/* <CustomInput
