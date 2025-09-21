@@ -2,14 +2,20 @@ import { FlatList, Text, View, Image, Pressable, Animated, TouchableOpacity, But
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useRef } from "react";
 import * as Sentry from '@sentry/react-native';
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 import "../global.css"
 import { flavors, images } from "@/constants";
 import CartButton from "@/components/CartButton";
+import useAuthStore from "@/store/auth.store";
 
 
 
 export default function Index() {
+  const { user } = useAuthStore();
+
+  const navigation = useNavigation();
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -64,21 +70,25 @@ export default function Index() {
   return (
 
     <SafeAreaView className="bg-white flex-1">
+
       <View>
-        <Image source={images.header} className="absolute -top-6 left-0 w-full " resizeMode="contain" />
+        <Image source={images.header} className="absolute w-full mt-[-50px]" resizeMode="contain" />
+      </View>
+      <View>
+        <Image source={images.header} className="absolute w-full mt-[-20px]" resizeMode="contain" />
       </View>
 
-      <View className="justify-between flex-row w-full px-5">
+      <View className="justify-between flex-row w-full px-5 mt-3">
         <View className="flex-start">
           <TouchableOpacity>
-            <Image source={images.menuwhite} className="w-7 h-7" resizeMode="contain" />
+            <Image source={images.logout} className="w-6 h-6" resizeMode="contain" />
           </TouchableOpacity>
-        </View>
+        </View> 
 
         <CartButton/>
       </View>
 
-      <Text className="text-red font-bop text-center text-7xl mt-[60px]">Discover</Text>
+      <Text className="text-red font-bop text-center text-7xl mt-[50px]">Discover</Text>
       <Text className="text-black font-coolvetica text-center text-3xl my-1">{currentFlavor.title}</Text>
 
       <View className="flex-row items-center justify-center mt-6">
@@ -113,10 +123,10 @@ export default function Index() {
         
       <Text className="text-black font-coolvetica text-center text-xl mt-5 px-8">{currentFlavor.details}</Text>  
 
-      <View className="absolute bottom-16 left-8 items-center">
+      {/* <View className="absolute bottom-16 left-8 items-center">
           <Image source={images.tags} className="w-100 h-45" resizeMode="contain" />
           <Text className="text-red font-coolvetica text-center text-xl absolute top-5 left-24">{currentFlavor.calories}</Text>
-      </View>
+      </View> */}
 
     </SafeAreaView>
   );

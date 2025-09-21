@@ -6,6 +6,9 @@ import menuwhite from "../assets/icons/menu-white.png";
 import selicon from "../assets/icons/select-icon.png";
 import left from "../assets/icons/left-icon.png";
 import right from "../assets/icons/right-icon.png";
+import profile from "../assets/icons/profile.png";
+import settings from "../assets/icons/settings.png";
+import logout from "../assets/icons/logout.png";
 
 import banoffee from "../assets/images/banoffee.png";
 import chocolate from "../assets/images/chocolate.png";
@@ -110,5 +113,8 @@ export const images = {
     landingpic,
     flavorbg,
     header,
-    visual
+    visual,
+    settings,
+    profile,
+    logout
 };
